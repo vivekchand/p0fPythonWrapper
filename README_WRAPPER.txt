@@ -42,8 +42,9 @@
 		run.py  - A simple script that runs p0f on eth0 interface
 		client.py - A simple script that lets to query for an IP addr with a Domain socket to p0f server
 				usage:
-					client.py /path/to/socket host_ip
-
+				sudo run.py
+				sudo	client.py /path/to/socket host_ip
+				
 	Build & Install p0fmod:
 	-----------------------
 		python setup.py build && sudo python setup.py install		
