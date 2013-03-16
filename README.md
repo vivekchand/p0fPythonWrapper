@@ -5,8 +5,7 @@
 	=====================================================================
    
   What is this?
-	
-		http://lcamtuf.coredump.cx/p0f3/
+	http://lcamtuf.coredump.cx/p0f3/
 
 	 Passive OS Fingerprinting Python Wrapper has the following APIs:
 
