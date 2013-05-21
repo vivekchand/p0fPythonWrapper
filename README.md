@@ -4,7 +4,7 @@
 	     
 	=====================================================================
 
-  See in github page?
+  Want to See it in github page?
   	http://vivekchand19.github.io/p0fPythonWrapper/
 
   What is this?
