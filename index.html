@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>P0fpythonwrapper by vivekchand19</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>P0fpythonwrapper</h1>
+        <h2>p0f Python Wrapper</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/vivekchand19/p0fPythonWrapper/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/vivekchand19/p0fPythonWrapper/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/vivekchand19/p0fPythonWrapper" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <pre><code>=====================================================================
+    Passive OS Fingerprinting (p0f) Python Wrapper (p0fmod) 
+            by Vivek Chand (vivekchand19@gmail.com)
+=====================================================================
+</code></pre>
+
+<p>What is this?
+    <a href="http://lcamtuf.coredump.cx/p0f3/">http://lcamtuf.coredump.cx/p0f3/</a></p>
+
+<pre><code> Passive OS Fingerprinting Python Wrapper has the following APIs:
+
+set_fp_file(fname) - set fingerprint file name
+set_iface(iface)   - set specific n/w interface
+list_interfaces()  - list all avail. n/w interfaces 
+set_read_file(fname)  - reads pcap captures frm the read file
+set_log_file(fname)  - appends grep-friendly log data to the specified file
+set_api_sock(fname) - listens for API queries on the specified filesystem socket
+en_daemon_mode() - runs p0f in daemon mode
+switch_user(user) - causes p0f to drop privileges
+en_promisc_mode() - puts the interface specified with iface in promiscuous mode
+set_api_max_conn(num) - sets the maximum number of simultaneous API connections
+set_max_conn(c) - sets the maximum number of connections (c) to be tracked
+set_max_hosts(h) - sets the maximum number of hosts (h) to be tracked
+set_conn_max_age(c) - sets the timeout for collecting signatures for any connection (c)
+set_host_idle_limit(h) - sets the timeout for collecting signatures for purging idle hosts
+
+start_p0f() - Once p0f is configured with the above APIs, Passive OS Fingerprinting
+          can be started by calling this API.
+
+
+Miscellaneous APIs:
+-------------------
+mk_query(ip_addr) - Prepares the query ready for sending to p0f 
+ck_response(response_data) - Prints info of query if response is valid
+
+
+Import p0fmod as:
+-----------------
+    import p0fmod
+
+
+Examples:
+---------
+    run.py  - A simple script that runs p0f on eth0 interface
+    client.py - A simple script that lets to query for an IP addr with a Domain socket to p0f server
+            usage:
+            sudo run.py
+            sudo    client.py /path/to/socket host_ip
+
+Build &amp; Install p0fmod:
+-----------------------
+    python setup.py build &amp;&amp; sudo python setup.py install       
+</code></pre>
+
+<h1>Detailed Description of APIs:</h1>
+
+<h2>set_fp_file:</h2>
+
+<pre><code>reads fingerprint database (p0f.fp) from the specified location.
+
+The default location is ./p0f.fp. If you want to install p0f, you
+    may want to change FP_FILE in config.h to /etc/p0f.fp.
+
+Usage:  
+    set_fp_file(fname)
+
+Returns:
+         0 - success
+        -1 - Multiple fingerprint files not supported.
+</code></pre>
+
+<h2>set_iface:</h2>
+
+<pre><code>asks p0f to listen on a specific network interface. On un*x, you
+    should reference the interface by name (e.g., eth0). On Windows,
+    you can use adapter index instead (0, 1, 2...). 
+
+If you do not specify an interface, libpcap will probably pick
+    the first working interface in your system.
+
+Usage:
+    set_iface(iface)
+
+Returns:
+         0 - success
+            -1 - Multiple iface not supported (try '-i any').
+</code></pre>
+
+<h2>list_interfaces:</h2>
+
+<pre><code> lists all available network interfaces, then quits. Particularly
+     useful on Windows, where the system-generated interface names
+     are impossible to memorize.    
+
+ Usage:
+    list_interfaces()
+
+
+ Returns:
+         0 - success
+</code></pre>
+
+<h2>set_read_file:</h2>
+
+<pre><code>instead of listening for live traffic, reads pcap captures from
+    the specified file. The data can be collected with tcpdump or any
+    other compatible tool.
+
+Make sure that snapshot length is large enough not to truncate packets; the
+    default may be too small.
+
+Usage:
+    set_read_file(fname)
+
+Returns:
+    0 - success
+           -1 - Multiple read_file not supported.
+</code></pre>
+
+<h2>set_log_file:</h2>
+
+<pre><code> appends grep-friendly log data to the specified file. The log
+     contains all observations made by p0f about every matching
+     connection, and may grow large; plan accordingly.
+
+     Only one instance of p0f should be writing to a particular file
+     at any given time; where supported, advisory locking is used to
+     avoid problems.
+
+ Usage:
+    set_log_file(fname)
+
+ Returns:
+         0 - success
+        -1 - Multiple log_file not supported.
+</code></pre>
+
+<h2>set_api_sock:</h2>
+
+<pre><code>listens for API queries on the specified filesystem socket. This
+    allows other programs to ask p0f about its current thoughts about
+    a particular host. More information about the API protocol can be
+    found in section 4 below.
+
+    Only one instance of p0f can be listening on a particular socket
+    at any given time. The mode is also incompatible with read_file mode.
+
+Usage:
+    set_api_sock(fname)
+
+Returns:
+     0 - success
+            -1 - Multiple API Sockets not supported.
+            -2 - API mode not supported on Windows 
+</code></pre>
+
+<h2>en_daemon_mode:</h2>
+
+<pre><code>runs p0f in daemon mode: the program will fork into background
+    and continue writing to the specified log file or API socket. It
+    will continue running until killed, until the listening interface
+    is shut down, or until some other fatal error is encountered.
+
+    This mode requires either log_file or api_sock to be specified.
+
+Usage:
+    en_daemon_mode()
+
+Returns:
+         0 - success
+        -1 - Double werewolf mode not supported yet.
+</code></pre>
+
+<h2>switch_user:</h2>
+
+<pre><code>causes p0f to drop privileges, switching to the specified user
+    and chroot()ing itself to said user's home directory.
+
+    This mode is *highly* advisable (but not required) on un*x
+    systems, especially in daemon mode.
+
+Usage:
+    switch_user(user)
+</code></pre>
+
+<h1>More arcane settings (you probably don't need to touch these):</h1>
+
+<h2>en_promisc_mode:</h2>
+
+<pre><code>puts the interface specified with iface in promiscuous mode. If
+    supported by the firmware, the card will also process frames not
+    addressed to it.
+
+Usage:
+    en_promisc_mode()
+
+Returns:
+     0 - success
+        -1 - Even more promiscuous? People will call me slutty!
+</code></pre>
+
+<h2>set_api_max_conn:</h2>
+
+<pre><code>sets the maximum number of simultaneous API connections. The
+    default is 20; the upper cap is 100.
+
+Usage:
+    set_api_max_conn(num)
+
+Returns:
+         0 - success
+        -1 - Multiple max_conn values not supported.
+        -2 - Outlandish value specified for max_conn.
+        -3 - API mode not supported on Windows 
+</code></pre>
+
+<h2>set_max_conn:</h2>
+
+<pre><code>sets the maximum number of connections (c) to be tracked  
+(default: c = 1,000). 
+
+Usage:
+    set_max_conn(c)
+
+Returns:
+     0 - success
+        -1 - Multiple max_conn values not supported.
+        -2 - Outlandish value specified for max_conn.
+</code></pre>
+
+<h2>set_max_hosts:</h2>
+
+<pre><code>sets the maximum number of hosts (h) to be tracked 
+(default: h = 10,000).
+
+Usage:
+    set_max_hosts(h)
+
+Returns:
+         0 - success
+        -1 - Multiple max_hosts values not supported.
+        -2 - Outlandish value specified for max_hosts.
+
+
+    Once the limit for c &amp; h is reached, the oldest 10% entries 
+gets pruned to make room for new data.
+
+    This setting effectively controls the memory footprint of p0f.
+    The cost of tracking a single host is under 400 bytes; active
+    connections have a worst-case footprint of about 18 kB. High
+    limits have some CPU impact, too, by the virtue of complicating
+    data lookups in the cache.
+
+    NOTE: P0f tracks connections only until the handshake is done,
+    and if protocol-level fingerprinting is possible, until few
+    initial kilobytes of data have been exchanged. This means that
+    most connections are dropped from the cache in under 5 seconds;
+    consequently, the 'c' variable can be much lower than the real
+    number of parallel connections happening on the wire.
+</code></pre>
+
+<h2>set_conn_max_age:</h2>
+
+<pre><code>sets the timeout for collecting signatures for any connection (c)
+(default: 30s)
+
+The value must be just high enough to reliably capture SYN, SYN+ACK, 
+and the initial few kB of traffic. Low-performance sites may want 
+to increase it slightly.
+
+Usage:
+    set_conn_max_age(c)
+
+Returns:
+        0 - success
+           -1 - Multiple conn_max_age values not supported.
+           -2 - Outlandish value specified for conn_max_age.
+</code></pre>
+
+<h2>set_host_idle_limit:</h2>
+
+<pre><code>sets the timeout for collecting signatures for purging idle hosts 
+from in-memory cache (h)
+(default: 120min)
+
+This value governs for how long API queries about a previously seen host 
+can be made; and what's the maximum interval between signatures to still 
+trigger NAT detection and so on.
+
+    Raising it is usually not advisable; lowering it to 5-10 minutes may make 
+sense for high-traffic servers, where it is possible to see several unrelated 
+visitors subsequently obtaining the same dynamic IP from their ISP.
+
+Usage:
+    set_host_idle_limit(h)
+
+Returns:
+        0 - success
+           -1 - Multiple host_idle_limit values not supported.
+           -2 - Outlandish value specified for host_idle_limit.
+</code></pre>
+
+<h2>start_p0f:</h2>
+
+<pre><code>Once p0f is configured with the above APIs, Passive OS Fingerprinting 
+can be started by calling this API.
+
+Usage:
+    start_p0f()
+
+Returns:
+     0 - Success
+    -1 - API mode looks down on ofline captures.
+    -2 - api_max_con makes sense only with api_sock.
+    -3 - Daemon mode and offline captures don't mix.
+    -4 - Daemon mode requires log_file or api_sock.
+    -5 - [!] Note: under cygwin, switch_user is largely useless
+    -6 - [!] Consider specifying switch_user in daemon mode 
+</code></pre>
+
+<hr>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
