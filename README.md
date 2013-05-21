@@ -1,9 +1,12 @@
 	=====================================================================
 		Passive OS Fingerprinting (p0f) Python Wrapper (p0fmod) 
 				by Vivek Chand (vivekchand19@gmail.com)
-	     <a href="http://vivekchand19.github.io/p0fPythonWrapper/">p0fPythonWrapper</a>
+	     
 	=====================================================================
-   
+
+  See in github page?
+  	http://vivekchand19.github.io/p0fPythonWrapper/
+
   What is this?
 	http://lcamtuf.coredump.cx/p0f3/
 
