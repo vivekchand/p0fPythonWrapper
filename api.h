@@ -1,10 +1,10 @@
 /*
    p0f - API query code
-   --------------------
+   --------------------   
 
    Copyright (C) 2012 by Michal Zalewski <lcamtuf@coredump.cx>
 
-   Distributed under the terms and conditions of GNU LGPL.
+   Distributed under the terms and conditions of GNU LGPL.   
 
  */
 
