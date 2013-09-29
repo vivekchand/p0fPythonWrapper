@@ -4,8 +4,6 @@
 	     
 	=====================================================================
 
-  Want to See it in github page?
-  	http://vivekchand19.github.io/p0fPythonWrapper/
 
   What is this?
 	http://lcamtuf.coredump.cx/p0f3/
